@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">RoboTimer</string>
+    <string name="timer_format">%02d:%02d:%02d</string>
+</resources>
