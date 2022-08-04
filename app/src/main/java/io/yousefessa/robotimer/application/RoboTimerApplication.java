@@ -1,27 +1,23 @@
 package io.yousefessa.robotimer.application;
 
-import java.util.Collection;
-import java.util.Collections;
-
 import io.yousefessa.robotimer.application.context.ApplicationContext;
-import io.yousefessa.robotimer.application.module.ApplicationModule;
-import io.yousefessa.robotimer.application.module.impl.screentracker.ScreenTrackerModule;
+import io.yousefessa.robotimer.application.module.handler.ApplicationModuleHandler;
+import io.yousefessa.robotimer.application.module.handler.RoboTimerModuleHandler;
 
+// todo: make this closed for modifications but open for extension
 public class RoboTimerApplication extends Application {
-    private final ApplicationContext context;
+    private final ApplicationModuleHandler applicationModuleHandler;
 
-    public RoboTimerApplication(final ApplicationContext context) {
-        this.context = context;
+    public RoboTimerApplication(final ApplicationContext mainContext, final ApplicationContext timerContext) {
+        this.applicationModuleHandler = new RoboTimerModuleHandler(mainContext, timerContext);
     }
 
     public void init() {
-        for (final ApplicationModule module : modules()) {
-            module.init();
-        }
+        super.init();
     }
 
     @Override
-    Collection<ApplicationModule> modules() {
-        return Collections.singleton(new ScreenTrackerModule(context));
+    ApplicationModuleHandler applicationModuleHandler() {
+        return this.applicationModuleHandler;
     }
 }

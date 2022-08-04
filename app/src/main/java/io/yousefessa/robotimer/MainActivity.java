@@ -1,51 +1,47 @@
 package io.yousefessa.robotimer;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.view.View;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import io.yousefessa.robotimer.application.RoboTimerApplication;
-import io.yousefessa.robotimer.application.context.ApplicationContext;
+import io.yousefessa.robotimer.application.module.impl.timer.TimerScreenService;
 
 public class MainActivity extends AppCompatActivity {
+    public static MainActivity mainActivity;
+
+    //    public static int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 5469;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new RoboTimerApplication(new RoboTimerContext(this)).init();
-    }
+        mainActivity = this;
 
-    static class RoboTimerContext implements ApplicationContext {
-        private final Context context;
-        private final Activity activity;
+        //        Log.println(Log.DEBUG, "UpdatedTimer", "Attempting to show the top overlay now!");
 
-        RoboTimerContext(final AppCompatActivity activity) {
-            this.context = activity;
-            this.activity = activity;
-        }
+        //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
+        //            // Show alert dialog to the user saying a separate permission is needed
+        //            // Launch the settings activity if the user prefers
+        //            Intent myIntent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package: " +
+        //            getPackageName()));
+        //            startActivityForResult(myIntent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE);
+        //        }
 
-        @Override
-        public Intent registerReceiver(@Nullable @org.jetbrains.annotations.Nullable
-        final BroadcastReceiver receiver, final IntentFilter filter) {
-            return context.registerReceiver(receiver, filter);
-        }
+        //        startService(new Intent(this, TimerScreenService.class));
+        //        finish();
 
-        @Override
-        public <T extends View> T findViewById(final int id) {
-            return this.activity.findViewById(id);
-        }
+        //        startActivity(new Intent(this, TimerActivity.class));
 
-        @NonNull
-        @Override
-        public String getString(final int resId) {
-            return this.context.getString(resId);
-        }
+        //        RoboTimerApplication.addActivity(Activity.MAIN, new DefaultApplicationContext(this));
+
+        //        System.out.println("service: " + TimerScreenService.service);
+        //
+        //        new RoboTimerApplication(
+        //                new DefaultApplicationContext(this),
+        //                new ContextApplication(TimerScreenService.service)
+        //        ).init();
+
+        System.out.println("Starting service now...");
+        startService(new Intent(this, TimerScreenService.class));
     }
 }

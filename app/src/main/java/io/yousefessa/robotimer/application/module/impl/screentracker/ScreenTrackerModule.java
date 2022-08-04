@@ -2,29 +2,27 @@ package io.yousefessa.robotimer.application.module.impl.screentracker;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 import android.util.Log;
 import android.widget.TextView;
 import io.yousefessa.robotimer.R;
 import io.yousefessa.robotimer.application.context.ApplicationContext;
 import io.yousefessa.robotimer.application.module.ApplicationModule;
+import io.yousefessa.robotimer.application.module.handler.ApplicationModuleHandler;
+import io.yousefessa.robotimer.application.module.impl.Module;
+import io.yousefessa.robotimer.application.module.impl.timer.TimerScreenModule;
 import io.yousefessa.robotimer.util.ApplicationMainLooper;
 
 public class ScreenTrackerModule extends ApplicationModule {
-    private final ScheduledExecutorService executorService;
-    private final ScreenStatusTracker screenStatusTracker;
+    private final ScreenStatusNotifier screenStatusNotifier;
     private final ScreenTrackerScheduler screenTrackerScheduler;
 
-    private TextView timerText;
     private ScreenStatus screenStatus = ScreenStatus.OFF;
     private Instant activeTime = Instant.EPOCH;
 
-    public ScreenTrackerModule(final ApplicationContext context) {
-        super(context);
-        this.executorService = Executors.newSingleThreadScheduledExecutor();
-        this.screenStatusTracker = new ScreenStatusTracker(new ScreenStatusListener(this));
+    public ScreenTrackerModule(final ApplicationModuleHandler handler, final ApplicationContext context) {
+        super(Module.SCREEN_TRACKER, handler, context);
+        this.screenStatusNotifier = new ScreenStatusNotifier(new ScreenStatusListener(this));
         this.screenTrackerScheduler = new ScreenTrackerScheduler(new ScreenSchedulerTask(this));
     }
 
@@ -35,10 +33,25 @@ public class ScreenTrackerModule extends ApplicationModule {
         this.screenStatus = ScreenStatus.ON;
         this.activeTime = Instant.now();
 
-        this.screenStatusTracker.init(this.context);
-        this.timerText = context.findViewById(R.id.textView);
+        System.out.println("context: " + context);
+
+        this.screenStatusNotifier.init(context);
+        final TextView timerText = context.findViewById(R.id.timer_ticking);
 
         this.screenTrackerScheduler.init(timerText);
+    }
+
+    public void triggerTimer() {
+        final TimerScreenModule timerScreen = (TimerScreenModule) this.handler.findModule(Module.TIMER_SCREEN);
+
+        screenStatus(ScreenStatus.OFF);
+        resetActiveTime();
+
+        timerScreen.showOverlay();
+    }
+
+    public ScreenStatus screenStatus() {
+        return screenStatus;
     }
 
     public void screenStatus(final ScreenStatus screenStatus) {
@@ -63,15 +76,23 @@ public class ScreenTrackerModule extends ApplicationModule {
         @Override
         void handle(final TextView view) {
             final String newlyTimerText;
-            if (this.module.screenStatus == ScreenStatus.OFF) {
+            if (this.module.screenStatus() == ScreenStatus.OFF) {
                 newlyTimerText = "00:00:00";
             } else {
                 final Instant currentTime = Instant.now();
                 final Duration screenOnDuration = Duration.between(this.module.activeTime, currentTime);
 
+                final long minutes = screenOnDuration.toMinutes() % 60;
+                final long seconds = screenOnDuration.getSeconds() % 60;
+
+                // todo: make this option configurable
+                if (seconds > 2) {
+                    ApplicationMainLooper.instance()
+                            .post(this.module::triggerTimer);
+                }
+
                 newlyTimerText = String.format(this.module.context.getString(R.string.timer_format),
-                        screenOnDuration.toHours(),
-                        screenOnDuration.toMinutes() % 60, screenOnDuration.getSeconds() % 60);
+                        screenOnDuration.toHours(), minutes, seconds);
             }
 
             ApplicationMainLooper.instance()
@@ -86,7 +107,7 @@ public class ScreenTrackerModule extends ApplicationModule {
         }
     }
 
-    static class ScreenStatusListener extends ScreenStatusTracker.ScreenStatusChangeListener {
+    static class ScreenStatusListener extends ScreenStatusNotifier.ScreenStatusChangeListener {
         private final ScreenTrackerModule module;
 
         public ScreenStatusListener(final ScreenTrackerModule module) {

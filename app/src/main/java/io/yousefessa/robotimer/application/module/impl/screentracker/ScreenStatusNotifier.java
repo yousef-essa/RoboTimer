@@ -6,17 +6,17 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import io.yousefessa.robotimer.application.context.ApplicationContext;
 
-// create listener for the screen status change
-public class ScreenStatusTracker {
+public class ScreenStatusNotifier {
     private final ScreenStatusChangeListener statusChangeListener;
 
-    public ScreenStatusTracker(final ScreenStatusChangeListener statusChangeListener) {
+    public ScreenStatusNotifier(final ScreenStatusChangeListener statusChangeListener) {
         this.statusChangeListener = statusChangeListener;
     }
 
     public void init(final ApplicationContext context) {
         final IntentFilter intentFilter = new IntentFilter(Intent.ACTION_SCREEN_ON);
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+
         context.registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {

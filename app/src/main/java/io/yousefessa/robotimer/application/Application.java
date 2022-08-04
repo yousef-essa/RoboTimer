@@ -1,11 +1,13 @@
 package io.yousefessa.robotimer.application;
 
-import java.util.Collection;
-
-import io.yousefessa.robotimer.application.module.ApplicationModule;
+import io.yousefessa.robotimer.application.module.handler.ApplicationModuleHandler;
 
 public abstract class Application {
-    abstract void init();
+    protected Application() {}
 
-    abstract Collection<ApplicationModule> modules();
+    public void init() {
+        applicationModuleHandler().init();
+    }
+
+    abstract ApplicationModuleHandler applicationModuleHandler();
 }

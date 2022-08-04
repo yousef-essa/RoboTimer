@@ -3,6 +3,7 @@ package io.yousefessa.robotimer.application.context;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.view.LayoutInflater;
 import android.view.View;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
@@ -16,4 +17,9 @@ public interface ApplicationContext {
 
     @NonNull
     String getString(@StringRes int resId);
+
+    Object getSystemService(String name);
+
+    @NonNull
+    LayoutInflater getLayoutInflater();
 }

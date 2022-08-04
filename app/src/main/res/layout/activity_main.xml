@@ -14,8 +14,9 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:id="@+id/textView"
+            android:id="@+id/timer_ticking"
             android:letterSpacing="0.5"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textSize="34sp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
