@@ -10,17 +10,17 @@ import io.yousefessa.robotimer.application.context.ContextApplication;
 import io.yousefessa.robotimer.application.context.DefaultApplicationContext;
 
 public class TimerScreenService extends Service {
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        new RoboTimerApplication(new DefaultApplicationContext(MainActivity.mainActivity),
-                new ContextApplication(this)).init();
-    }
-
     @Nullable
     @Override
     public IBinder onBind(final Intent intent) {
         return null;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        new RoboTimerApplication(new DefaultApplicationContext(MainActivity.getInstance()),
+                new ContextApplication(this)).init();
     }
 }

@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import io.yousefessa.robotimer.application.module.impl.timer.TimerScreenService;
 
 public class MainActivity extends AppCompatActivity {
-    public static MainActivity mainActivity;
+    private static MainActivity instance;
+    public static MainActivity getInstance() {
+        return instance;
+    }
 
     //    public static int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 5469;
 
@@ -15,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mainActivity = this;
+        instance = this;
 
         //        Log.println(Log.DEBUG, "UpdatedTimer", "Attempting to show the top overlay now!");
 
