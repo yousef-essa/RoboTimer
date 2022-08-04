@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">RoboTimer</string>
+    <string name="timer_text">00:00:00</string>
     <string name="timer_format">%02d:%02d:%02d</string>
-    <string name="timer_reached_title">Timer Reached</string>
-    <string name="timer_reached_message">You have used your phone for 18 minutes
+    <string name="alarm_title">Timer Alarm</string>
+    <string name="alarm_message">You have used your phone for 18 minutes
         straight. Please refrain from using your phone for 30 seconds by turning
         off your screen.</string>
-    <string name="timer_reached_hide_button">Hide</string>
+    <string name="alarm_hide_button">Hide</string>
 </resources>

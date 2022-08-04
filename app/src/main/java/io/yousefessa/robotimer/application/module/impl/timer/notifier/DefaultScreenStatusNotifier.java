@@ -1,16 +1,16 @@
-package io.yousefessa.robotimer.application.module.impl.screentracker.notifier;
+package io.yousefessa.robotimer.application.module.impl.timer.notifier;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import io.yousefessa.robotimer.application.module.impl.screentracker.ScreenStatus;
-import io.yousefessa.robotimer.application.module.impl.screentracker.ScreenTrackerModule;
+import io.yousefessa.robotimer.application.module.impl.timer.ScreenStatus;
+import io.yousefessa.robotimer.application.module.impl.timer.TimerScreenModule;
 
 public class DefaultScreenStatusNotifier extends ScreenStatusNotifier {
     private final ScreenStatusChangeListener listener;
     private final IntentFilter intentFilter;
 
-    public DefaultScreenStatusNotifier(final ScreenTrackerModule module) {
+    public DefaultScreenStatusNotifier(final TimerScreenModule module) {
         this.listener = new ScreenStatusListener(module);
 
         this.intentFilter = new IntentFilter(Intent.ACTION_SCREEN_ON);
@@ -39,9 +39,9 @@ public class DefaultScreenStatusNotifier extends ScreenStatusNotifier {
     }
 
     static class ScreenStatusListener extends ScreenStatusNotifier.ScreenStatusChangeListener {
-        private final ScreenTrackerModule module;
+        private final TimerScreenModule module;
 
-        public ScreenStatusListener(final ScreenTrackerModule module) {
+        public ScreenStatusListener(final TimerScreenModule module) {
             this.module = module;
         }
 

@@ -1,4 +1,4 @@
-package io.yousefessa.robotimer.application.module.impl.screentracker.scheduler;
+package io.yousefessa.robotimer.application.module.impl.timer.scheduler;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -7,13 +7,13 @@ import java.util.concurrent.TimeUnit;
 import android.util.Log;
 import android.widget.TextView;
 import io.yousefessa.robotimer.R;
-import io.yousefessa.robotimer.application.module.impl.screentracker.ScreenTrackerModule;
+import io.yousefessa.robotimer.application.module.impl.timer.TimerScreenModule;
 import io.yousefessa.robotimer.util.ApplicationMainLooper;
 
 public class DefaultScreenTrackerScheduler extends ScreenTrackerScheduler {
     private final SchedulerTask schedulerTask;
 
-    public DefaultScreenTrackerScheduler(final ScreenTrackerModule module) {
+    public DefaultScreenTrackerScheduler(final TimerScreenModule module) {
         this.schedulerTask = new ScreenSchedulerTask(module);
     }
 
@@ -27,9 +27,9 @@ public class DefaultScreenTrackerScheduler extends ScreenTrackerScheduler {
         private static final int DELAY = INITIAL_DELAY;
         private static final TimeUnit TIME_UNIT = TimeUnit.SECONDS;
 
-        private final ScreenTrackerModule module;
+        private final TimerScreenModule module;
 
-        public ScreenSchedulerTask(final ScreenTrackerModule module) {
+        public ScreenSchedulerTask(final TimerScreenModule module) {
             super(INITIAL_DELAY, DELAY, TIME_UNIT);
             this.module = module;
         }

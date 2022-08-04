@@ -1,11 +1,11 @@
-package io.yousefessa.robotimer.application.module.impl.screentracker.notifier;
+package io.yousefessa.robotimer.application.module.impl.timer.notifier;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import io.yousefessa.robotimer.application.context.ApplicationContext;
-import io.yousefessa.robotimer.application.module.impl.screentracker.ScreenStatus;
+import io.yousefessa.robotimer.application.module.impl.timer.ScreenStatus;
 
 public abstract class ScreenStatusNotifier {
     public final void init(final ApplicationContext context) {

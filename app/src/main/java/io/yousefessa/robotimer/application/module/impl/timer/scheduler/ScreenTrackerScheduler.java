@@ -1,4 +1,4 @@
-package io.yousefessa.robotimer.application.module.impl.screentracker.scheduler;
+package io.yousefessa.robotimer.application.module.impl.timer.scheduler;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

@@ -3,11 +3,11 @@ package io.yousefessa.robotimer;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import io.yousefessa.robotimer.application.module.impl.timer.TimerScreenService;
+import io.yousefessa.robotimer.application.module.impl.alarm.AlarmScreenService;
 
-public class MainActivity extends AppCompatActivity {
-    private static MainActivity instance;
-    public static MainActivity getInstance() {
+public class TimerActivity extends AppCompatActivity {
+    private static TimerActivity instance;
+    public static TimerActivity getInstance() {
         return instance;
     }
 
@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_timer);
 
         instance = this;
 
@@ -45,6 +45,6 @@ public class MainActivity extends AppCompatActivity {
         //        ).init();
 
         System.out.println("Starting service now...");
-        startService(new Intent(this, TimerScreenService.class));
+        startService(new Intent(this, AlarmScreenService.class));
     }
 }
