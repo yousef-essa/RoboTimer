@@ -16,7 +16,7 @@ public abstract class TimerScreenModule extends ApplicationModule {
     private boolean trackTime = false;
 
     public TimerScreenModule(final ApplicationModuleHandler handler, final ApplicationContext context) {
-        super(Module.SCREEN_TRACKER, handler, context);
+        super(Module.TIMER, handler, context);
     }
 
     public abstract ScreenTrackerScheduler screenTrackerScheduler();
@@ -27,9 +27,9 @@ public abstract class TimerScreenModule extends ApplicationModule {
     }
 
     public void triggerAlarm() {
-        stopTrackingTime();
+        resetAndStopTrackingTime();
 
-        final AlarmScreenModule timerScreen = (AlarmScreenModule) this.handler.findModule(Module.TIMER_SCREEN);
+        final AlarmScreenModule timerScreen = (AlarmScreenModule) this.handler.findModule(Module.ALARM);
         timerScreen.showScreen();
     }
 
@@ -42,7 +42,7 @@ public abstract class TimerScreenModule extends ApplicationModule {
         this.activeTime = Instant.now();
     }
 
-    public void stopTrackingTime() {
+    public void resetAndStopTrackingTime() {
         this.trackTime = false;
         this.activeTime = Instant.EPOCH;
     }

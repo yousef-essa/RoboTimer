@@ -41,19 +41,20 @@ public class DefaultScreenTrackerScheduler extends ScreenTrackerScheduler {
                 newlyTimerText = "00:00:00";
             } else {
                 final Instant currentTime = Instant.now();
-                final Duration screenOnDuration = Duration.between(this.module.activeTime(), currentTime);
+                final Duration activeTime = Duration.between(this.module.activeTime(), currentTime);
+                final Duration elapsedTime = Duration.ofMinutes(18).minus(activeTime);
 
-                final long minutes = screenOnDuration.toMinutes() % 60;
-                final long seconds = screenOnDuration.getSeconds() % 60;
+                final long minutes = elapsedTime.toMinutes() % 60;
+                final long seconds = elapsedTime.getSeconds() % 60;
 
                 // todo: make this option configurable
-                if (seconds >= 10) {
+                if (seconds <= 50) {
                     ApplicationMainLooper.instance()
                             .post(this.module::triggerAlarm);
                 }
 
                 newlyTimerText = String.format(this.module.context()
-                        .getString(R.string.timer_format), screenOnDuration.toHours(), minutes, seconds);
+                        .getString(R.string.timer_format), elapsedTime.toHours(), minutes, seconds);
             }
 
             ApplicationMainLooper.instance()

@@ -8,7 +8,7 @@ import io.yousefessa.robotimer.application.module.impl.Module;
 
 public abstract class AlarmScreenModule extends ApplicationModule implements View.OnClickListener {
     public AlarmScreenModule(final ApplicationModuleHandler handler, final ApplicationContext context) {
-        super(Module.TIMER_SCREEN, handler, context);
+        super(Module.ALARM, handler, context);
     }
 
     public abstract void showScreen();

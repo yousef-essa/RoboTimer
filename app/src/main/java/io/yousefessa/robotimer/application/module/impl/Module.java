@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import org.jetbrains.annotations.NotNull;
 
 public enum Module {
-    SCREEN_TRACKER, TIMER_SCREEN;
+    TIMER, ALARM;
 
     @NonNull
     @NotNull

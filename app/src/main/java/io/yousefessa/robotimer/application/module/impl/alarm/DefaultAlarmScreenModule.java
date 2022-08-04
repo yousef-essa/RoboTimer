@@ -7,6 +7,8 @@ import android.widget.Button;
 import io.yousefessa.robotimer.R;
 import io.yousefessa.robotimer.application.context.ApplicationContext;
 import io.yousefessa.robotimer.application.module.handler.ApplicationModuleHandler;
+import io.yousefessa.robotimer.application.module.impl.Module;
+import io.yousefessa.robotimer.application.module.impl.timer.TimerScreenModule;
 
 import static android.content.Context.WINDOW_SERVICE;
 

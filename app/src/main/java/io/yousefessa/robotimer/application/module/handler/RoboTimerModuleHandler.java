@@ -20,8 +20,8 @@ public class RoboTimerModuleHandler extends ApplicationModuleHandler {
         this.timerContext = timerContext;
 
         this.moduleMap = new HashMap<>();
-        this.moduleMap.put(Module.SCREEN_TRACKER, new DefaultTimerScreenModule(this, this.mainContext));
-        this.moduleMap.put(Module.TIMER_SCREEN, new DefaultAlarmScreenModule(this, this.timerContext));
+        this.moduleMap.put(Module.TIMER, new DefaultTimerScreenModule(this, this.mainContext));
+        this.moduleMap.put(Module.ALARM, new DefaultAlarmScreenModule(this, this.timerContext));
     }
 
     @Override
