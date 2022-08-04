@@ -25,7 +25,7 @@ public class DefaultTimerScreenModule extends TimerScreenModule {
         // todo: check the current display status
         //  and set the status & stamp accordingly
         screenStatus(ScreenStatus.ON);
-        startTrackingTime();
+        resetAndStartTrackingTime();
 
         System.out.println("context: " + context);
 

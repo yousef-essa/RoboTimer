@@ -38,11 +38,22 @@ public abstract class TimerScreenModule extends ApplicationModule {
     }
 
     public void startTrackingTime() {
+        System.out.println("Started tracking time");
+        this.trackTime = true;
+    }
+
+    public void resetAndStartTrackingTime() {
         this.trackTime = true;
         this.activeTime = Instant.now();
     }
 
+    public void stopTrackingTime() {
+        System.out.println("Stopped tracking time");
+        this.trackTime = false;
+    }
+
     public void resetAndStopTrackingTime() {
+        System.out.println("Resetting tracking time");
         this.trackTime = false;
         this.activeTime = Instant.EPOCH;
     }

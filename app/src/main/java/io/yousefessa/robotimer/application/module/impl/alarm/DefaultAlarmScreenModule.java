@@ -49,7 +49,7 @@ public class DefaultAlarmScreenModule extends AlarmScreenModule {
         this.windowManager.removeView(this.sourceView);
 
         final TimerScreenModule screenModule = (TimerScreenModule) handler.findModule(Module.TIMER);
-        screenModule.startTrackingTime();
+        screenModule.resetAndStartTrackingTime();
     }
 
     @Override

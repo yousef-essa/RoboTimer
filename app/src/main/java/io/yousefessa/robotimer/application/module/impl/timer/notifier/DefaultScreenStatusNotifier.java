@@ -54,7 +54,7 @@ public class DefaultScreenStatusNotifier extends ScreenStatusNotifier {
                     module.startTrackingTime();
                     break;
                 case OFF:
-                    module.resetAndStopTrackingTime();
+                    module.stopTrackingTime();
                     break;
             }
         }
