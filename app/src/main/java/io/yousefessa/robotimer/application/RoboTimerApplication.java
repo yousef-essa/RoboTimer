@@ -4,7 +4,6 @@ import io.yousefessa.robotimer.application.context.ApplicationContext;
 import io.yousefessa.robotimer.application.module.handler.ApplicationModuleHandler;
 import io.yousefessa.robotimer.application.module.handler.RoboTimerModuleHandler;
 
-// todo: make this closed for modifications but open for extension
 public class RoboTimerApplication extends Application {
     private final ApplicationModuleHandler applicationModuleHandler;
 

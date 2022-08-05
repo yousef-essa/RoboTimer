@@ -10,18 +10,12 @@ import io.yousefessa.robotimer.application.module.impl.timer.DefaultTimerScreenM
 import io.yousefessa.robotimer.application.module.impl.alarm.DefaultAlarmScreenModule;
 
 public class RoboTimerModuleHandler extends ApplicationModuleHandler {
-    private final ApplicationContext mainContext;
-    private final ApplicationContext timerContext;
-
     private final Map<Module, ApplicationModule> moduleMap;
 
     public RoboTimerModuleHandler(final ApplicationContext mainContext, final ApplicationContext timerContext) {
-        this.mainContext = mainContext;
-        this.timerContext = timerContext;
-
         this.moduleMap = new HashMap<>();
-        this.moduleMap.put(Module.TIMER, new DefaultTimerScreenModule(this, this.mainContext));
-        this.moduleMap.put(Module.ALARM, new DefaultAlarmScreenModule(this, this.timerContext));
+        this.moduleMap.put(Module.TIMER, new DefaultTimerScreenModule(this, mainContext));
+        this.moduleMap.put(Module.ALARM, new DefaultAlarmScreenModule(this, timerContext));
     }
 
     @Override
