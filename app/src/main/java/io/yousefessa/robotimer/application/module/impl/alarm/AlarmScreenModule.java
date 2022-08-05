@@ -13,4 +13,6 @@ public abstract class AlarmScreenModule extends ApplicationModule implements Vie
 
     public abstract void showScreen();
     public abstract void hideScreen();
+
+    public abstract boolean isScreenVisible();
 }

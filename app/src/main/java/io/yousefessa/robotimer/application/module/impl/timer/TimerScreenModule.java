@@ -1,6 +1,6 @@
 package io.yousefessa.robotimer.application.module.impl.timer;
 
-import java.time.Instant;
+import java.util.Map;
 
 import io.yousefessa.robotimer.application.context.ApplicationContext;
 import io.yousefessa.robotimer.application.module.ApplicationModule;
@@ -8,61 +8,38 @@ import io.yousefessa.robotimer.application.module.handler.ApplicationModuleHandl
 import io.yousefessa.robotimer.application.module.impl.Module;
 import io.yousefessa.robotimer.application.module.impl.timer.notifier.ScreenStatusNotifier;
 import io.yousefessa.robotimer.application.module.impl.timer.scheduler.ScreenTrackerScheduler;
-import io.yousefessa.robotimer.application.module.impl.alarm.AlarmScreenModule;
 
 public abstract class TimerScreenModule extends ApplicationModule {
     private ScreenStatus screenStatus = ScreenStatus.OFF;
-    private Instant activeTime = Instant.EPOCH;
-    private boolean trackTime = false;
 
     public TimerScreenModule(final ApplicationModuleHandler handler, final ApplicationContext context) {
         super(Module.TIMER, handler, context);
     }
 
+    public abstract void handle(final ScreenStatus screenStatus);
+
+    public abstract void triggerAlarm();
+    public abstract void hideAlarm();
+
     public abstract ScreenTrackerScheduler screenTrackerScheduler();
+
     public abstract ScreenStatusNotifier screenStatusNotifier();
 
-    public ApplicationContext context() {
-        return this.context;
+    abstract Map<TimerSubModule.Type, TimerSubModule> modules();
+
+    public TimerSubModule findSubModule(final TimerSubModule.Type type) {
+        return modules().get(type);
     }
 
-    public void triggerAlarm() {
-        resetAndStopTrackingTime();
-
-        final AlarmScreenModule timerScreen = (AlarmScreenModule) this.handler.findModule(Module.ALARM);
-        timerScreen.showScreen();
-    }
-
-    public void screenStatus(final ScreenStatus screenStatus) {
+    protected void screenStatus(final ScreenStatus screenStatus) {
         this.screenStatus = screenStatus;
     }
 
-    public void startTrackingTime() {
-        System.out.println("Started tracking time");
-        this.trackTime = true;
+    public ScreenStatus screenStatus() {
+        return screenStatus;
     }
 
-    public void resetAndStartTrackingTime() {
-        this.trackTime = true;
-        this.activeTime = Instant.now();
-    }
-
-    public void stopTrackingTime() {
-        System.out.println("Stopped tracking time");
-        this.trackTime = false;
-    }
-
-    public void resetAndStopTrackingTime() {
-        System.out.println("Resetting tracking time");
-        this.trackTime = false;
-        this.activeTime = Instant.EPOCH;
-    }
-
-    public boolean shouldTrackTime() {
-        return trackTime;
-    }
-
-    public Instant activeTime() {
-        return this.activeTime;
+    public ApplicationContext context() {
+        return this.context;
     }
 }

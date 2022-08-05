@@ -16,9 +16,13 @@ public abstract class ApplicationModule {
         this.context = context;
     }
 
+    public abstract void init();
+
     public Module name() {
         return name;
     }
 
-    public abstract void init();
+    public ApplicationModuleHandler handler() {
+        return handler;
+    }
 }

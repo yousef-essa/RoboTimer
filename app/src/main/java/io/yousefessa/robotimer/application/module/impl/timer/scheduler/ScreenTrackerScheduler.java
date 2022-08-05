@@ -14,10 +14,12 @@ public abstract class ScreenTrackerScheduler {
         this.executorService = Executors.newSingleThreadScheduledExecutor();
     }
 
-    abstract SchedulerTask schedulerTask();
+    abstract SchedulerTask[] schedulerTasks();
 
     public final void init(final TextView targetView) {
-        schedulerTask().schedule(executorService, targetView);
+        for (final SchedulerTask task : schedulerTasks()) {
+            task.schedule(executorService, targetView);
+        }
     }
 
     public static abstract class SchedulerTask {

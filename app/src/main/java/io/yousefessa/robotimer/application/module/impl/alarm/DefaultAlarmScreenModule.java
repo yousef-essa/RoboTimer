@@ -6,9 +6,12 @@ import android.view.WindowManager;
 import android.widget.Button;
 import io.yousefessa.robotimer.R;
 import io.yousefessa.robotimer.application.context.ApplicationContext;
+import io.yousefessa.robotimer.application.module.ApplicationModule;
 import io.yousefessa.robotimer.application.module.handler.ApplicationModuleHandler;
 import io.yousefessa.robotimer.application.module.impl.Module;
+import io.yousefessa.robotimer.application.module.impl.timer.SimpleTimerSubModule;
 import io.yousefessa.robotimer.application.module.impl.timer.TimerScreenModule;
+import io.yousefessa.robotimer.application.module.impl.timer.TimerSubModule;
 
 import static android.content.Context.WINDOW_SERVICE;
 
@@ -20,6 +23,8 @@ public class DefaultAlarmScreenModule extends AlarmScreenModule {
     private WindowManager windowManager;
     private View sourceView;
     private Button hideButton;
+
+    private boolean visible = false;
 
     @Override
     public void init() {
@@ -36,6 +41,11 @@ public class DefaultAlarmScreenModule extends AlarmScreenModule {
 
     @Override
     public void showScreen() {
+        if (visible) {
+            throw new IllegalStateException("You cannot show a screen that is not visible.");
+        }
+        this.visible = true;
+
         final WindowManager.LayoutParams windowManagerParams =
                 new WindowManager.LayoutParams(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
 
@@ -46,10 +56,18 @@ public class DefaultAlarmScreenModule extends AlarmScreenModule {
 
     @Override
     public void hideScreen() {
-        this.windowManager.removeView(this.sourceView);
+        if (!visible) {
+            throw new IllegalStateException("You cannot hide a screen that is not invisible.");
+        }
+        this.visible = false;
 
-        final TimerScreenModule screenModule = (TimerScreenModule) handler.findModule(Module.TIMER);
-        screenModule.resetAndStartTrackingTime();
+        this.windowManager.removeView(this.sourceView);
+        System.out.println("The alarm has been hid.");
+    }
+
+    @Override
+    public boolean isScreenVisible() {
+        return this.visible;
     }
 
     @Override
@@ -61,6 +79,11 @@ public class DefaultAlarmScreenModule extends AlarmScreenModule {
         final Button button = (Button) v;
         if (this.hideButton.equals(button)) {
             hideScreen();
+
+            final TimerScreenModule timerModule = (TimerScreenModule) this.handler.findModule(Module.TIMER);
+            final SimpleTimerSubModule subModule = (SimpleTimerSubModule) timerModule.findSubModule(TimerSubModule.Type.SCREEN_ON_TIMER);
+            subModule.unlock();
+            subModule.resetAndStartTrackingTime();
         }
     }
 }

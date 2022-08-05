@@ -47,16 +47,7 @@ public class DefaultScreenStatusNotifier extends ScreenStatusNotifier {
 
         @Override
         public void handle(final ScreenStatus screenStatus) {
-            module.screenStatus(screenStatus);
-
-            switch (screenStatus) {
-                case ON:
-                    module.startTrackingTime();
-                    break;
-                case OFF:
-                    module.stopTrackingTime();
-                    break;
-            }
+            module.handle(screenStatus);
         }
     }
 }
