@@ -1,5 +1,6 @@
 package io.yousefessa.robotimer.application.module.impl.alarm;
 
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -46,8 +47,15 @@ public class DefaultAlarmScreenModule extends AlarmScreenModule {
         }
         this.visible = true;
 
+        final int params;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            params = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        } else {
+            params = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+        }
+
         final WindowManager.LayoutParams windowManagerParams =
-                new WindowManager.LayoutParams(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+                new WindowManager.LayoutParams(params);
 
         Log.println(Log.DEBUG, "UpdatedTimer", "Showing overlay now!");
 
