@@ -14,6 +14,7 @@ import io.yousefessa.robotimer.application.module.impl.timer.TimerSubModule;
 import io.yousefessa.robotimer.util.ApplicationMainLooper;
 
 public class ScreenOnSchedulerTask extends ScreenTrackerScheduler.SchedulerTask {
+    private static final int SCREEN_ON_TIMER_SECONDS_INTERVAL = 18 * 60;
     private static final int INITIAL_DELAY = 1;
     private static final int DELAY = INITIAL_DELAY;
     private static final TimeUnit TIME_UNIT = TimeUnit.SECONDS;
@@ -38,22 +39,23 @@ public class ScreenOnSchedulerTask extends ScreenTrackerScheduler.SchedulerTask 
 
             System.out.println("active time seconds: " + activeTime.getSeconds());
 
-            final Duration elapsedTime = Duration.ofMinutes(18)
+            final Duration elapsedTime = Duration.ofSeconds(SCREEN_ON_TIMER_SECONDS_INTERVAL)
                     .minus(activeTime);
 
+            final long hours = elapsedTime.toHours();
             final long minutes = elapsedTime.toMinutes() % 60;
             final long seconds = elapsedTime.getSeconds() % 60;
 
             final AlarmScreenModule alarmScreenModule = (AlarmScreenModule) module.handler().findModule(Module.ALARM);
 
             // todo: make this option configurable
-            if (seconds <= 50 && !alarmScreenModule.isScreenVisible()) {
+            if ((hours <= 0 && minutes <= 0 && seconds <= 0) && !alarmScreenModule.isScreenVisible()) {
                 ApplicationMainLooper.instance()
                         .post(this.module::triggerAlarm);
             }
 
             newlyTimerText = String.format(this.module.context()
-                    .getString(R.string.timer_format), elapsedTime.toHours(), minutes, seconds);
+                    .getString(R.string.timer_format), hours, minutes, seconds);
         }
 
         ApplicationMainLooper.instance()
