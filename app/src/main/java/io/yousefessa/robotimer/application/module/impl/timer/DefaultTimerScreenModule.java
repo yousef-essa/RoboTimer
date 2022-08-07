@@ -14,6 +14,8 @@ import io.yousefessa.robotimer.application.module.impl.timer.notifier.ScreenStat
 import io.yousefessa.robotimer.application.module.impl.timer.scheduler.DefaultScreenTrackerScheduler;
 import io.yousefessa.robotimer.application.module.impl.timer.scheduler.ScreenTrackerScheduler;
 
+import static io.yousefessa.robotimer.util.ApplicationUtil.isDevicePoweredOn;
+
 public class DefaultTimerScreenModule extends TimerScreenModule {
     private final ScreenTrackerScheduler screenTrackerScheduler;
     private final ScreenStatusNotifier screenStatusNotifier;
@@ -42,11 +44,10 @@ public class DefaultTimerScreenModule extends TimerScreenModule {
 
     @Override
     public void init() {
-        // todo: check the current display status
-        //  and set the status & stamp accordingly
-        screenStatus(ScreenStatus.ON);
-
-        findSubModule(TimerSubModule.Type.SCREEN_ON_TIMER).resetAndStartTrackingTime();
+        if (isDevicePoweredOn(context.getLayoutInflater()
+                .getContext())) {
+            handle(ScreenStatus.ON);
+        }
 
         System.out.println("context: " + context);
 

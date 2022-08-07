@@ -1,10 +1,12 @@
 package io.yousefessa.robotimer.application.module.impl.timer.notifier;
 
+import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import io.yousefessa.robotimer.application.module.impl.timer.ScreenStatus;
 import io.yousefessa.robotimer.application.module.impl.timer.TimerScreenModule;
+import io.yousefessa.robotimer.util.ApplicationUtil;
 
 public class DefaultScreenStatusNotifier extends ScreenStatusNotifier {
     private final ScreenStatusChangeListener listener;
@@ -15,6 +17,7 @@ public class DefaultScreenStatusNotifier extends ScreenStatusNotifier {
 
         this.intentFilter = new IntentFilter(Intent.ACTION_SCREEN_ON);
         this.intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+        this.intentFilter.addAction(Intent.ACTION_USER_PRESENT);
     }
 
     @Override
@@ -23,6 +26,10 @@ public class DefaultScreenStatusNotifier extends ScreenStatusNotifier {
 
         switch (intent.getAction()) {
             case Intent.ACTION_SCREEN_ON:
+                if (ApplicationUtil.isDeviceRestricted(context)) {
+                    return;
+                }
+            case Intent.ACTION_USER_PRESENT:
                 screenStatus = ScreenStatus.ON;
                 break;
             case Intent.ACTION_SCREEN_OFF:
