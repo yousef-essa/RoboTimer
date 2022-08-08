@@ -21,6 +21,7 @@ public class DefaultTimerScreenModule extends TimerScreenModule {
     private final ScreenStatusNotifier screenStatusNotifier;
 
     private final Map<TimerSubModule.Type, TimerSubModule> subModuleMap;
+    private boolean visible = false;
 
     public DefaultTimerScreenModule(final ApplicationModuleHandler handler, final ApplicationContext context) {
         super(handler, context);
@@ -35,6 +36,7 @@ public class DefaultTimerScreenModule extends TimerScreenModule {
 
     @Override
     public void handle(final ScreenStatus screenStatus) {
+        System.out.println("Update screen status: " + screenStatus);
         this.screenStatus(screenStatus);
 
         for (final TimerSubModule timerSubModule : subModuleMap.values()) {

@@ -7,12 +7,11 @@ import java.util.concurrent.TimeUnit;
 
 import android.widget.TextView;
 
-public abstract class ScreenTrackerScheduler {
-    protected final ScheduledExecutorService executorService;
+import static io.yousefessa.robotimer.util.ApplicationUtil.debugLog;
 
-    public ScreenTrackerScheduler() {
-        this.executorService = Executors.newSingleThreadScheduledExecutor();
-    }
+public abstract class ScreenTrackerScheduler {
+    private final ScheduledExecutorService executorService = Executors
+            .newSingleThreadScheduledExecutor();
 
     abstract SchedulerTask[] schedulerTasks();
 
@@ -47,8 +46,14 @@ public abstract class ScreenTrackerScheduler {
                 throw new UnsupportedOperationException("This task cannot run periodical schedules.");
             }
 
+            debugLog("ScreenTrackerScheduler",
+                    "Scheduling " + this.getClass().getSimpleName() + " for " + initialDelay + ", " + delay + ", " + timeUnit);
             executorService.scheduleWithFixedDelay(() -> {
-                handle(view);
+                try {
+                    handle(view);
+                } catch (final Exception exception) {
+                    exception.printStackTrace();
+                }
             }, initialDelay, delay, timeUnit);
         }
 
