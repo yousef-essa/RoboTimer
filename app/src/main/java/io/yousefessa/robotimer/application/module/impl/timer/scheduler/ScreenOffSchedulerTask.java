@@ -32,18 +32,43 @@ public class ScreenOffSchedulerTask extends ScreenTrackerScheduler.SchedulerTask
             return;
         }
 
-        final Instant currentTime = Instant.now();
-        final Duration activeTime = Duration.between(timerModule.activeTime(), currentTime);
-
         final SimpleTimerSubModule screenOnModule =
                 (SimpleTimerSubModule) module.findSubModule(TimerSubModule.Type.SCREEN_ON_TIMER);
 
-        if (screenOnModule.isLocked() && activeTime.getSeconds() <= SCREEN_OFF_BREAK_SECONDS_INTERVAL) {
+        if (!isAlarmBreakReached(screenOnModule, screenOffModule.activeTime())) {
             return;
-        } else if (activeTime.getSeconds() <= SCREEN_OFF_SECONDS_INTERVAL) {
+        }
+
+        if (!isResetTimeReached(screenOffModule.activeTime())) {
             return;
         }
 
         this.module.hideAlarm();
+    }
+
+    private boolean isAlarmBreakReached(final SimpleTimerSubModule screenOnModule, final Instant activeTime) {
+        final Duration duration = Duration.between(activeTime, Instant.now());
+
+        final int breakSeconds;
+        if (BuildConfig.DEBUG) {
+            breakSeconds = DEBUG_SCREEN_OFF_BREAK_SECONDS_INTERVAL;
+        } else {
+            breakSeconds = SCREEN_OFF_BREAK_SECONDS_INTERVAL;
+        }
+
+        return !screenOnModule.isLocked() && duration.getSeconds() >= breakSeconds;
+    }
+
+    private boolean isResetTimeReached(final Instant activeTime) {
+        final Duration duration = Duration.between(activeTime, Instant.now());
+
+        final int resetSeconds;
+        if (BuildConfig.DEBUG) {
+            resetSeconds = DEBUG_SCREEN_OFF_SECONDS_INTERVAL;
+        } else {
+            resetSeconds = SCREEN_OFF_SECONDS_INTERVAL;
+        }
+
+        return duration.getSeconds() >= resetSeconds;
     }
 }

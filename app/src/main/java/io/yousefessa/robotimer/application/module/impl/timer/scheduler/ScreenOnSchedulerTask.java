@@ -4,17 +4,22 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
-import android.util.Log;
 import android.widget.TextView;
+import io.yousefessa.robotimer.BuildConfig;
 import io.yousefessa.robotimer.R;
 import io.yousefessa.robotimer.application.module.impl.Module;
 import io.yousefessa.robotimer.application.module.impl.alarm.AlarmScreenModule;
+import io.yousefessa.robotimer.application.module.impl.timer.SimpleTimerSubModule;
 import io.yousefessa.robotimer.application.module.impl.timer.TimerScreenModule;
 import io.yousefessa.robotimer.application.module.impl.timer.TimerSubModule;
 import io.yousefessa.robotimer.util.ApplicationMainLooper;
 
+import static io.yousefessa.robotimer.util.ApplicationUtil.debugLog;
+
 public class ScreenOnSchedulerTask extends ScreenTrackerScheduler.SchedulerTask {
     private static final int SCREEN_ON_TIMER_SECONDS_INTERVAL = 18 * 60;
+    private static final int DEBUG_SCREEN_ON_TIMER_SECONDS_INTERVAL = 10;
+
     private static final int INITIAL_DELAY = 1;
     private static final int DELAY = INITIAL_DELAY;
     private static final TimeUnit TIME_UNIT = TimeUnit.SECONDS;
@@ -39,8 +44,14 @@ public class ScreenOnSchedulerTask extends ScreenTrackerScheduler.SchedulerTask 
 
             System.out.println("active time seconds: " + activeTime.getSeconds());
 
-            final Duration elapsedTime = Duration.ofSeconds(SCREEN_ON_TIMER_SECONDS_INTERVAL)
-                    .minus(activeTime);
+            final Duration elapsedTime;
+            if (BuildConfig.DEBUG) {
+                elapsedTime = Duration.ofSeconds(DEBUG_SCREEN_ON_TIMER_SECONDS_INTERVAL)
+                        .minus(activeTime);
+            } else {
+                elapsedTime = Duration.ofSeconds(SCREEN_ON_TIMER_SECONDS_INTERVAL)
+                        .minus(activeTime);
+            }
 
             final long hours = elapsedTime.toHours();
             final long minutes = elapsedTime.toMinutes() % 60;
