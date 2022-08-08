@@ -1,13 +1,11 @@
 package io.yousefessa.robotimer.application.module.impl.alarm;
 
-import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import io.yousefessa.robotimer.R;
 import io.yousefessa.robotimer.application.context.ApplicationContext;
-import io.yousefessa.robotimer.application.module.ApplicationModule;
 import io.yousefessa.robotimer.application.module.handler.ApplicationModuleHandler;
 import io.yousefessa.robotimer.application.module.impl.Module;
 import io.yousefessa.robotimer.application.module.impl.timer.SimpleTimerSubModule;

@@ -1,6 +1,5 @@
 package io.yousefessa.robotimer.application.module.impl.timer.notifier;
 
-import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;

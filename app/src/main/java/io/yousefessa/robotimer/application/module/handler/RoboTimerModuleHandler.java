@@ -6,8 +6,8 @@ import java.util.Map;
 import io.yousefessa.robotimer.application.context.ApplicationContext;
 import io.yousefessa.robotimer.application.module.ApplicationModule;
 import io.yousefessa.robotimer.application.module.impl.Module;
-import io.yousefessa.robotimer.application.module.impl.timer.DefaultTimerScreenModule;
 import io.yousefessa.robotimer.application.module.impl.alarm.DefaultAlarmScreenModule;
+import io.yousefessa.robotimer.application.module.impl.timer.DefaultTimerScreenModule;
 
 public class RoboTimerModuleHandler extends ApplicationModuleHandler {
     private final Map<Module, ApplicationModule> moduleMap;

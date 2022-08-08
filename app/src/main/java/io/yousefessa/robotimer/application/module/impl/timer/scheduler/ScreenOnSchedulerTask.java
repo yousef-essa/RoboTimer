@@ -72,7 +72,7 @@ public class ScreenOnSchedulerTask extends ScreenTrackerScheduler.SchedulerTask 
         ApplicationMainLooper.instance()
                 .post(() -> {
                     try {
-                        Log.println(Log.DEBUG, "UpdatedTimer", "Updated timer text with " + newlyTimerText);
+                        debugLog("ScreenOnTask", "Updated timer with " + newlyTimerText);
                         view.setText(newlyTimerText);
                     } catch (final Exception exception) {
                         exception.printStackTrace();
