@@ -11,6 +11,7 @@ import io.yousefessa.robotimer.application.module.impl.timer.TimerScreenModule;
 import io.yousefessa.robotimer.application.module.impl.timer.TimerSubModule;
 
 import static io.yousefessa.robotimer.util.ApplicationUtil.debugLog;
+import static io.yousefessa.robotimer.util.ApplicationUtil.isInDebug;
 
 public class ScreenOffSchedulerTask extends ScreenTrackerScheduler.SchedulerTask {
     private static final int SCREEN_OFF_SECONDS_INTERVAL = 60;
@@ -75,7 +76,7 @@ public class ScreenOffSchedulerTask extends ScreenTrackerScheduler.SchedulerTask
         final Duration duration = Duration.between(activeTime, Instant.now());
 
         final int breakSeconds;
-        if (BuildConfig.DEBUG) {
+        if (isInDebug()) {
             breakSeconds = DEBUG_SCREEN_OFF_BREAK_SECONDS_INTERVAL;
         } else {
             breakSeconds = SCREEN_OFF_BREAK_SECONDS_INTERVAL;
@@ -88,7 +89,7 @@ public class ScreenOffSchedulerTask extends ScreenTrackerScheduler.SchedulerTask
         final Duration duration = Duration.between(activeTime, Instant.now());
 
         final int resetSeconds;
-        if (BuildConfig.DEBUG) {
+        if (isInDebug()) {
             resetSeconds = DEBUG_SCREEN_OFF_SECONDS_INTERVAL;
         } else {
             resetSeconds = SCREEN_OFF_SECONDS_INTERVAL;
