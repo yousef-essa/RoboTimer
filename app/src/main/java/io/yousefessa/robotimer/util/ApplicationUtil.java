@@ -4,6 +4,7 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.os.PowerManager;
 import android.util.Log;
+import io.yousefessa.robotimer.BuildConfig;
 
 public class ApplicationUtil {
     public static boolean isDeviceRestricted(final Context context) {
@@ -20,5 +21,9 @@ public class ApplicationUtil {
         ApplicationMainLooper.instance().post(() -> {
             Log.println(Log.DEBUG, tag, message);
         });
+    }
+
+    public static boolean isInDebug() {
+        return BuildConfig.BUILD_TYPE.equals("debug");
     }
 }
