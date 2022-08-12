@@ -39,7 +39,10 @@ public class AppService extends Service {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void startForeignService() {
-        final NotificationChannel channel = new NotificationChannel(NOTIFICATION_ID, "my_service",
+        final String notificationName = getResources().getString(R.string.notification_name);
+        final String notificationDescription = getResources().getString(R.string.notification_description);
+
+        final NotificationChannel channel = new NotificationChannel(NOTIFICATION_ID, notificationName,
                 NotificationManager.IMPORTANCE_NONE);
         channel.setLightColor(Color.BLUE);
         channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
@@ -47,8 +50,8 @@ public class AppService extends Service {
         final NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.createNotificationChannel(channel);
 
-        final Notification notification = new Notification.Builder(this, NOTIFICATION_ID)
-                .setContentText("This app is running in the background.")
+        final Notification notification =
+                new Notification.Builder(this, NOTIFICATION_ID).setContentText(notificationDescription)
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setPriority(Notification.PRIORITY_MIN)
                 .setCategory(Notification.CATEGORY_SERVICE)
