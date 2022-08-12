@@ -3,7 +3,6 @@
         package="io.yousefessa.robotimer">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
             android:name="io.yousefessa.AndroidApplication"
@@ -29,7 +28,7 @@
         </receiver>
 
         <service
-                android:name="io.yousefessa.robotimer.AppService"
+                android:name="io.yousefessa.robotimer.application.module.impl.alarm.AlarmScreenService"
                 android:exported="false" />
     </application>
 </manifest>

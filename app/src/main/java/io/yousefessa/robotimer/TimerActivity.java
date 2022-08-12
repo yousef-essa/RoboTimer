@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import io.yousefessa.robotimer.application.module.impl.alarm.AlarmScreenService;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,19 +36,13 @@ public class TimerActivity extends AppCompatActivity implements ActivityCompat.O
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
             askPermission();
         } else {
-            startAppService();
+            startAlarmService();
         }
     }
 
-    private void startAppService() {
+    private void startAlarmService() {
         System.out.println("Starting service now...");
-        final Intent service = new Intent(this, AppService.class);
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            startService(service);
-        } else {
-            startForegroundService(service);
-        }
+        startService(new Intent(this, AlarmScreenService.class));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -64,7 +59,7 @@ public class TimerActivity extends AppCompatActivity implements ActivityCompat.O
         final String toastText;
         if (Settings.canDrawOverlays(this)) {
             toastText = "Authorization request has been granted";
-            startAppService();
+            startAlarmService();
         } else {
             toastText = "Authorization request has been denied.";
         }
@@ -95,6 +90,6 @@ public class TimerActivity extends AppCompatActivity implements ActivityCompat.O
             return;
         }
 
-        startAppService();
+        startAlarmService();
     }
 }
