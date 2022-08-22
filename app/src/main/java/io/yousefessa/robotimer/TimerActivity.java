@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -37,6 +38,9 @@ public class TimerActivity extends AppCompatActivity implements ActivityCompat.O
         } else {
             startAppService();
         }
+
+        final TextView versionTextView = findViewById(R.id.version);
+        versionTextView.setText(AndroidApplication.getInstance().getLocalVersion());
     }
 
     private void startAppService() {
