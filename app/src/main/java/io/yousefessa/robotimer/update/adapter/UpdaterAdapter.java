@@ -117,12 +117,19 @@ public class UpdaterAdapter implements ApplicationAdapter {
         System.out.println("Starting downloading process now!");
         final File downloadDirectory = new File(context.getExternalFilesDir(null), "update");
 
-        if (!downloadDirectory.exists()) {
-            if (downloadDirectory.mkdirs()) {
-                System.out.println("The update folder has been created successfully.");
+        if (downloadDirectory.exists()) {
+            if (downloadDirectory.delete()) {
+                System.out.println("The update folder has been deleted successfully.");
             } else {
-                System.out.println("The update folder has been created unsuccessfully.");
+                System.out.println("The update folder has been deleted unsuccessfully.");
             }
+        }
+
+        if (!downloadDirectory.exists() && downloadDirectory.mkdirs()) {
+            System.out.println("The update folder has been created successfully.");
+        } else if (!downloadDirectory.exists()) {
+            System.out.println("The update folder has been created unsuccessfully.");
+            return null;
         }
 
         final String apkName = UUID.randomUUID() + ".apk";
