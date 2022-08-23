@@ -33,7 +33,7 @@
         <activity android:name=".update.adapter.UnknownAppSourceRequestActivity"
                 android:launchMode="singleTask"/>
 
-        <receiver android:name=".BootReceiver">
+        <receiver android:name=".boot.BootReceiver">
             <intent-filter >
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
