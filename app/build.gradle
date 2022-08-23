@@ -79,16 +79,16 @@ ext {
     }
 }
 
-// Create a variable called keystorePropertiesFile, and initialize it to your
-// keystore.properties file, in the rootProject folder.
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 
-// Initialize a new Properties() object called keystoreProperties.
+// Create a variable called keystorePropertiesFile, and initialize it to your
+// keystore.properties file, in the rootProject folder.
 def keystoreProperties = new Properties()
 
-// Load your keystore.properties file into the keystoreProperties object.
+// Initialize a new Properties() object called keystoreProperties.
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
+// Load your keystore.properties file into the keystoreProperties object.
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -107,9 +107,12 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
 
-//        def appVersion = buildVersionCode("0.0.1-dev")
-        versionCode 1
-        versionName "1"
+        def currentBuildType = getCurrentBuildType()
+        println("buildType: " + currentBuildType)
+
+        def appVersion = buildVersionCode("0.1.0-" + currentBuildType)
+        versionCode appVersion
+        versionName appVersion.toString()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -143,4 +146,10 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+}
+
+def getCurrentBuildType() {
+    def isDebug = gradle.startParameter.taskRequests.any {
+        it.args.any { it.endsWith("Debug") } }
+    return isDebug ? "dev" : ""
 }
