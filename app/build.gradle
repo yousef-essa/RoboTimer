@@ -137,7 +137,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'org.jetbrains:annotations:15.0'
-    implementation 'com.github.yousef-essa:ApplicationUpdater:0.1.1'
+    implementation 'com.github.yousef-essa:ApplicationUpdater:0.2.0'
 
     testImplementation 'junit:junit:4.+'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
