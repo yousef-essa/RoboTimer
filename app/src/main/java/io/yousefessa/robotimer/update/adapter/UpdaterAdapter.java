@@ -60,7 +60,7 @@ public class UpdaterAdapter implements ApplicationAdapter {
         installPackageIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         final PackageManager packageManager = context.getPackageManager();
-        final UpdateController updateController = UpdateController.Singleton.INSTANCE;
+        final UpdateController updateController = UpdateController.getInstance();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !packageManager.canRequestPackageInstalls()) {
             updateController.requestForPackageInstall(context, installPackageIntent);
         } else {

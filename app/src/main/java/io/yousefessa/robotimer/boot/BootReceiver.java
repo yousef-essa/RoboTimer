@@ -1,8 +1,9 @@
-package io.yousefessa.robotimer;
+package io.yousefessa.robotimer.boot;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import io.yousefessa.robotimer.TimerActivity;
 
 public class BootReceiver extends BroadcastReceiver {
     @Override

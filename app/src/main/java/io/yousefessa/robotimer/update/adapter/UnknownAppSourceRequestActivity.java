@@ -15,7 +15,7 @@ public class UnknownAppSourceRequestActivity extends AppCompatActivity {
     private final ActivityResultLauncher<Intent> unknownAppSourceDialog =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         if (result.getResultCode() == Activity.RESULT_OK) {
-            UpdateController.Singleton.INSTANCE.launchUpdateActivity(this);
+            UpdateController.getInstance().launchUpdateActivity(this);
             finish();
         }
     });
