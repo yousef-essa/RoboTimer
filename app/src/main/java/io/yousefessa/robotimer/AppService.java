@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi;
 import io.yousefessa.robotimer.application.RoboTimerApplication;
 import io.yousefessa.robotimer.application.context.ContextApplication;
 import io.yousefessa.robotimer.application.context.DefaultApplicationContext;
+import io.yousefessa.robotimer.update.handler.factory.DefaultUpdateHandlerFactory;
 
 public class AppService extends Service {
     public static final String NOTIFICATION_ID = "notification_id";
@@ -35,6 +36,7 @@ public class AppService extends Service {
 
         new RoboTimerApplication(new DefaultApplicationContext(TimerActivity.getInstance()),
                 new ContextApplication(this)).init();
+        new DefaultUpdateHandlerFactory().createUpdaterHandler().init();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
