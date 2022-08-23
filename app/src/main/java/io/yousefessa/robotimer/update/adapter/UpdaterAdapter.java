@@ -104,6 +104,7 @@ public class UpdaterAdapter implements ApplicationAdapter {
         //  package, that way we would be able to delete
         //  the apk file once the installation process
         //  is complete
+
         //        if (apkFile.delete()) {
         //            System.out.println("The apk file has been deleted successfully.");
         //        } else {
@@ -146,12 +147,12 @@ public class UpdaterAdapter implements ApplicationAdapter {
                 updateProgress(Math.round(bytesCopied * 100.0f / fileLength));
                 output.write(buffer, 0, bytes);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (final IOException exception) {
+            exception.printStackTrace();
+            removeNotification();
             return null;
         } finally {
             apkFile.setReadable(true, false);
-            updateProgress(100);
         }
         return apkFile;
     }
@@ -160,7 +161,7 @@ public class UpdaterAdapter implements ApplicationAdapter {
         System.out.println("progress: " + progress);
 
         if (progress == 100) {
-            notificationManager.cancel(NOTIFICATION_ID);
+            removeNotification();
             return;
         }
 
@@ -171,5 +172,9 @@ public class UpdaterAdapter implements ApplicationAdapter {
 
         final Notification notification = notificationBuilder.build();
         notificationManager.notify(NOTIFICATION_ID, notification);
+    }
+
+    private void removeNotification() {
+        notificationManager.cancel(NOTIFICATION_ID);
     }
 }
