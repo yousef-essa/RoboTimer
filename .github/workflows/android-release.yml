@@ -1,0 +1,46 @@
+name: Build & Publish Release APK
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Setup JDK
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+        
+    - name: Make Gradle executable
+      run: chmod +x ./gradlew
+      
+    - name: Build APK Release
+      run: ./gradlew assembleRelease
+      
+  
+    - name: Sign APK
+      id: sign_apk
+      uses: r0adkll/sign-android-release@v1
+      with:
+        releaseDirectory: app/build/outputs/apk/release
+        signingKeyBase64: ${{ secrets.SIGNINGKEYBASE64 }}
+        alias: ${{ secrets.ALIAS }}
+        keyStorePassword: ${{ secrets.KEYSTOREPASSWORD }}
+        keyPassword: ${{ secrets.KEYPASSWORD }}
+ 
+    - name: Create artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: app-release
+        path: ${{steps.sign_apk.outputs.signedReleaseFile}}
+        
+    - name: Upload APK
+      uses: softprops/action-gh-release@v1
+      with:
+        files: ${{steps.sign_apk.outputs.signedReleaseFile}}
