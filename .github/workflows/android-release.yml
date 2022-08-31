@@ -22,11 +22,10 @@ jobs:
       
     - name: Build APK Release
       run: ./gradlew assembleRelease
-      
   
     - name: Sign APK
       id: sign_apk
-      uses: r0adkll/sign-android-release@v1
+      uses: yousef-essa/sign-android-release@v1.1
       with:
         releaseDirectory: app/build/outputs/apk/release
         signingKeyBase64: ${{ secrets.SIGNINGKEYBASE64 }}
