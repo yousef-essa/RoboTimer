@@ -1,0 +1,31 @@
+name: Build & Publish Release APK
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      
+    - name: Setup JDK
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+        
+    - name: Make Gradle executable
+      run: chmod +x ./gradlew
+      
+    - name: Build APK Release
+      run: ./gradlew assembleRelease
+      
+    - name: Upload to release
+      uses: kyze8439690/action-release-releaseapk@master
+      env:
+       GITHUB_TOKEN: ${{ secrets.TOKEN }}
+       APP_FOLDER: app
