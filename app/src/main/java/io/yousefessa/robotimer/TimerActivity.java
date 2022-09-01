@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.provider.Settings;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,14 +34,35 @@ public class TimerActivity extends AppCompatActivity implements ActivityCompat.O
 
         instance = this;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
-            askPermission();
-        } else {
-            startAppService();
-        }
+        checkForPermissions();
 
         final TextView versionTextView = findViewById(R.id.version);
         versionTextView.setText(AndroidApplication.getInstance().getLocalVersion());
+    }
+
+    private void checkForPermissions() {
+        overlayPermission();
+        ignoreBatteryOptimizationPermission();
+    }
+
+    private void overlayPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
+            final Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+            startActivityForResult(intent, SYSTEM_ALERT_WINDOW_CODE);
+        } else {
+            startAppService();
+        }
+    }
+
+    private void ignoreBatteryOptimizationPermission() {
+        final PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.M || powerManager.isIgnoringBatteryOptimizations(getPackageName())) {
+            return;
+        }
+
+        final Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+        intent.setData(Uri.parse("package:" + getPackageName()));
+        startActivity(intent);
     }
 
     private void startAppService() {
@@ -74,13 +96,6 @@ public class TimerActivity extends AppCompatActivity implements ActivityCompat.O
         }
         Toast.makeText(this, toastText, Toast.LENGTH_SHORT)
                 .show();
-    }
-
-    private void askPermission() {
-        System.out.println("Asking for a permission!");
-
-        final Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
-        startActivityForResult(intent, SYSTEM_ALERT_WINDOW_CODE);
     }
 
     @Override
