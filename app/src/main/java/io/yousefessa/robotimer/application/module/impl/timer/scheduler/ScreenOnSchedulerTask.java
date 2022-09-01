@@ -9,10 +9,10 @@ import io.yousefessa.robotimer.BuildConfig;
 import io.yousefessa.robotimer.R;
 import io.yousefessa.robotimer.application.module.impl.Module;
 import io.yousefessa.robotimer.application.module.impl.alarm.AlarmScreenModule;
-import io.yousefessa.robotimer.application.module.impl.timer.SimpleTimerSubModule;
 import io.yousefessa.robotimer.application.module.impl.timer.TimerScreenModule;
 import io.yousefessa.robotimer.application.module.impl.timer.TimerSubModule;
 import io.yousefessa.robotimer.util.ApplicationMainLooper;
+import io.yousefessa.robotimer.util.LoggerHandler;
 
 import static io.yousefessa.robotimer.util.ApplicationUtil.debugLog;
 
@@ -42,7 +42,7 @@ public class ScreenOnSchedulerTask extends ScreenTrackerScheduler.SchedulerTask 
             final Instant currentTime = Instant.now();
             final Duration activeTime = Duration.between(timerModule.activeTime(), currentTime);
 
-            System.out.println("active time seconds: " + activeTime.getSeconds());
+            LoggerHandler.log(this, "active time seconds: " + activeTime.getSeconds());
 
             final Duration elapsedTime;
             if (BuildConfig.DEBUG) {

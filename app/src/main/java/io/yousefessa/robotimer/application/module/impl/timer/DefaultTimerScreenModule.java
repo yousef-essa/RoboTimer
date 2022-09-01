@@ -13,6 +13,7 @@ import io.yousefessa.robotimer.application.module.impl.timer.notifier.DefaultScr
 import io.yousefessa.robotimer.application.module.impl.timer.notifier.ScreenStatusNotifier;
 import io.yousefessa.robotimer.application.module.impl.timer.scheduler.DefaultScreenTrackerScheduler;
 import io.yousefessa.robotimer.application.module.impl.timer.scheduler.ScreenTrackerScheduler;
+import io.yousefessa.robotimer.util.LoggerHandler;
 
 import static io.yousefessa.robotimer.util.ApplicationUtil.isDevicePoweredOn;
 
@@ -36,7 +37,7 @@ public class DefaultTimerScreenModule extends TimerScreenModule {
 
     @Override
     public void handle(final ScreenStatus screenStatus) {
-        System.out.println("Update screen status: " + screenStatus);
+        LoggerHandler.log(this, "Update screen status: " + screenStatus);
         this.screenStatus(screenStatus);
 
         for (final TimerSubModule timerSubModule : subModuleMap.values()) {
@@ -51,7 +52,7 @@ public class DefaultTimerScreenModule extends TimerScreenModule {
             handle(ScreenStatus.ON);
         }
 
-        System.out.println("context: " + context);
+        LoggerHandler.log(this, "context: " + context);
 
         screenStatusNotifier().init(context);
 
