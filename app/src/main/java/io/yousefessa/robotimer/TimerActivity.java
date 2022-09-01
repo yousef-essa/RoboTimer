@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import io.yousefessa.robotimer.util.LoggerHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -66,7 +67,7 @@ public class TimerActivity extends AppCompatActivity implements ActivityCompat.O
     }
 
     private void startAppService() {
-        System.out.println("Starting service now...");
+        LoggerHandler.log(this, "Starting service now...");
         final Intent service = new Intent(this, AppService.class);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
@@ -81,7 +82,7 @@ public class TimerActivity extends AppCompatActivity implements ActivityCompat.O
     protected void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        System.out.println("onActivityResult: " + requestCode + " | " + resultCode + " | " + data);
+        LoggerHandler.log(this, "onActivityResult: " + requestCode + " | " + resultCode + " | " + data);
 
         if (requestCode != SYSTEM_ALERT_WINDOW_CODE) {
             return;
@@ -101,8 +102,8 @@ public class TimerActivity extends AppCompatActivity implements ActivityCompat.O
     @Override
     public void onRequestPermissionsResult(final int requestCode,
             @NonNull @NotNull final String[] permissions, @NonNull @NotNull final int[] grantResults) {
-        System.out.println("permission: " + requestCode + " | " + Arrays.toString(permissions) + " | " +
-                           Arrays.toString(grantResults));
+        LoggerHandler.log(this, "permission: " + requestCode + " | " + Arrays.toString(permissions) + " | " +
+                                Arrays.toString(grantResults));
 
         if (requestCode != SYSTEM_ALERT_WINDOW_CODE) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);

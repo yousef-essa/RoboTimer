@@ -25,6 +25,7 @@ import io.yousefessa.applicationupdater.adapter.ApplicationAdapter;
 import io.yousefessa.applicationupdater.adapter.ApplicationAdapterContext;
 import io.yousefessa.robotimer.AndroidApplication;
 import io.yousefessa.robotimer.R;
+import io.yousefessa.robotimer.util.LoggerHandler;
 import org.jetbrains.annotations.NotNull;
 
 public class UpdaterAdapter implements ApplicationAdapter {
@@ -65,7 +66,7 @@ public class UpdaterAdapter implements ApplicationAdapter {
 
             final File apkFile = downloadFile(applicationContext, input, connection);
             if (apkFile == null) {
-                System.out.println("The downloading process has failed.");
+                LoggerHandler.log(this, "The downloading process has failed.");
                 return;
             }
 
@@ -76,7 +77,7 @@ public class UpdaterAdapter implements ApplicationAdapter {
     }
 
     private void installPackage(final Context context, final File apkFile) {
-        System.out.println("Starting the installation process now!");
+        LoggerHandler.log(this, "Starting the installation process now!");
         final Intent installPackageIntent;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -106,29 +107,29 @@ public class UpdaterAdapter implements ApplicationAdapter {
         //  is complete
 
         //        if (apkFile.delete()) {
-        //            System.out.println("The apk file has been deleted successfully.");
+        //            LoggerHandler.log(this, "The apk file has been deleted successfully.");
         //        } else {
-        //            System.out.println("The apk file has been deleted unsuccessfully.");
+        //            LoggerHandler.log(this, "The apk file has been deleted unsuccessfully.");
         //        }
     }
 
     @SuppressLint("SetWorldReadable")
     private File downloadFile(final Context context, final InputStream input, final HttpURLConnection connection) {
-        System.out.println("Starting downloading process now!");
+        LoggerHandler.log(this, "Starting downloading process now!");
         final File downloadDirectory = new File(context.getExternalFilesDir(null), "update");
 
         if (downloadDirectory.exists()) {
             if (downloadDirectory.delete()) {
-                System.out.println("The update folder has been deleted successfully.");
+                LoggerHandler.log(this, "The update folder has been deleted successfully.");
             } else {
-                System.out.println("The update folder has been deleted unsuccessfully.");
+                LoggerHandler.log(this, "The update folder has been deleted unsuccessfully.");
             }
         }
 
         if (!downloadDirectory.exists() && downloadDirectory.mkdirs()) {
-            System.out.println("The update folder has been created successfully.");
+            LoggerHandler.log(this, "The update folder has been created successfully.");
         } else if (!downloadDirectory.exists()) {
-            System.out.println("The update folder has been created unsuccessfully.");
+            LoggerHandler.log(this, "The update folder has been created unsuccessfully.");
             return null;
         }
 
@@ -137,9 +138,9 @@ public class UpdaterAdapter implements ApplicationAdapter {
 
         if (apkFile.exists()) {
             if (apkFile.delete()) {
-                System.out.println("The apkFile file has been deleted successfully.");
+                LoggerHandler.log(this, "The apkFile file has been deleted successfully.");
             } else {
-                System.out.println("The apkFile file has been deleted unsuccessfully.");
+                LoggerHandler.log(this, "The apkFile file has been deleted unsuccessfully.");
             }
         }
 
@@ -165,7 +166,7 @@ public class UpdaterAdapter implements ApplicationAdapter {
     }
 
     private void updateProgress(final int progress) {
-        System.out.println("progress: " + progress);
+        LoggerHandler.log(this, "progress: " + progress);
 
         if (progress == 100) {
             removeNotification();

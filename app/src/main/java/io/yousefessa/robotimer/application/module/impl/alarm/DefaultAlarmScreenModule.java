@@ -11,6 +11,7 @@ import io.yousefessa.robotimer.application.module.impl.Module;
 import io.yousefessa.robotimer.application.module.impl.timer.SimpleTimerSubModule;
 import io.yousefessa.robotimer.application.module.impl.timer.TimerScreenModule;
 import io.yousefessa.robotimer.application.module.impl.timer.TimerSubModule;
+import io.yousefessa.robotimer.util.LoggerHandler;
 
 import static android.content.Context.WINDOW_SERVICE;
 
@@ -28,11 +29,11 @@ public class DefaultAlarmScreenModule extends AlarmScreenModule {
     @Override
     public void init() {
         this.windowManager = (WindowManager) context.getSystemService(WINDOW_SERVICE);
-        System.out.println("windowManager: " + windowManager);
+        LoggerHandler.log(this, "windowManager: " + windowManager);
 
         this.sourceView = context.getLayoutInflater()
                 .inflate(R.layout.activity_alarm, null);
-        System.out.println("sourceView: " + sourceView);
+        LoggerHandler.log(this, "sourceView: " + sourceView);
 
         this.hideButton = this.sourceView.findViewById(R.id.hide_button);
         this.hideButton.setOnClickListener(this);
@@ -68,7 +69,7 @@ public class DefaultAlarmScreenModule extends AlarmScreenModule {
         this.visible = false;
 
         this.windowManager.removeView(this.sourceView);
-        System.out.println("The alarm has been hid.");
+        LoggerHandler.log(this, "The alarm has been hid.");
     }
 
     @Override
