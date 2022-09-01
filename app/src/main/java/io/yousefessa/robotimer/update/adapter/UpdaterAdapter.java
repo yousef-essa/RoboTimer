@@ -61,8 +61,8 @@ public class UpdaterAdapter implements ApplicationAdapter {
         final AndroidApplication applicationContext = AndroidApplication.getInstance();
         final InputStream input = context.getInputStream();
         final HttpURLConnection connection = (HttpURLConnection) context.getConnection();
-        try {
 
+        try {
             final File apkFile = downloadFile(applicationContext, input, connection);
             if (apkFile == null) {
                 System.out.println("The downloading process has failed.");
@@ -72,6 +72,8 @@ public class UpdaterAdapter implements ApplicationAdapter {
             installPackage(applicationContext, apkFile);
         } catch (final Exception exception) {
             exception.printStackTrace();
+        } finally {
+            removeNotification();
         }
     }
 
@@ -144,6 +146,12 @@ public class UpdaterAdapter implements ApplicationAdapter {
         }
 
         final long fileLength = connection.getContentLength();
+        System.out.println("apk file length: " + fileLength);
+
+        // if the input length is unknown (length = -1), do not continue
+        if (fileLength == -1) {
+            return null;
+        }
 
         final byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
         int bytes;
@@ -156,7 +164,6 @@ public class UpdaterAdapter implements ApplicationAdapter {
             }
         } catch (final IOException exception) {
             exception.printStackTrace();
-            removeNotification();
             return null;
         } finally {
             apkFile.setReadable(true, false);
