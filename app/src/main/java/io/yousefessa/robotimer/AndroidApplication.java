@@ -4,7 +4,7 @@ import android.app.Application;
 
 public class AndroidApplication extends Application {
     private static AndroidApplication instance;
-    private static final String LOCAL_VERSION = "0.1.2" + (BuildConfig.BUILD_TYPE.equals("release") ? "" :
+    private static final String LOCAL_VERSION = "0.1.3" + (BuildConfig.BUILD_TYPE.equals("release") ? "" :
             "-" + BuildConfig.BUILD_TYPE);
 
     public static AndroidApplication getInstance() {

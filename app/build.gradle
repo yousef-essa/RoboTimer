@@ -116,7 +116,7 @@ android {
         def currentBuildType = getCurrentBuildType()
         println("buildType: " + currentBuildType)
 
-        def appVersion = buildVersionCode("0.1.2-" + currentBuildType)
+        def appVersion = buildVersionCode("0.1.3-" + currentBuildType)
         versionCode appVersion
         versionName appVersion.toString()
 
