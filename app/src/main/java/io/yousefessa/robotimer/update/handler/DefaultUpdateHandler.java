@@ -11,9 +11,9 @@ import io.yousefessa.robotimer.update.DefaultUpdateFactory;
 import io.yousefessa.robotimer.update.UpdateFactory;
 
 public class DefaultUpdateHandler implements UpdateHandler {
-    public static final String GITHUB_USERNAME = "yousef-essa";
-    public static final String GITHUB_REPOSITORY = "RoboTimer";
-    public static final String GITHUB_RELEASE_FILE_NAME = "app-release.apk";
+    private static final String GITHUB_USERNAME = "yousef-essa";
+    private static final String GITHUB_REPOSITORY = "RoboTimer";
+    private static final String GITHUB_RELEASE_FILE_NAME = "app-release.apk";
 
     private final ApplicationUpdater applicationUpdater;
 
@@ -32,7 +32,7 @@ public class DefaultUpdateHandler implements UpdateHandler {
                 scheduleTask,
                 localVersion,
                 1L,
-                (60 * 60) * 60, TimeUnit.SECONDS
+                TimeUnit.MINUTES.toHours(60), TimeUnit.SECONDS
         );
     }
 
